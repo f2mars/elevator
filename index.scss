@@ -1,0 +1,40 @@
+header {
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    margin: 20px 20px 10px;
+}
+
+.grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.row {
+    display: flex;
+    margin: 15px;
+    flex-wrap: wrap;
+}
+
+.hint {
+    margin-bottom: 0px;
+}
+
+button {
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 16px;
+    background-color: rgba(169, 203, 255, 0.775);
+    border: 1px solid grey;
+    flex: 1 1 250px;
+}
+
+#paramsForGraph {
+    border-radius: 8px;
+    text-align: center;
+    flex: 1;
+    min-height: 30px;
+}
