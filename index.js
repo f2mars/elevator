@@ -1,23 +1,18 @@
-// node index.js
-
-// const http = require("http");
-// const fs = require("fs");
-
 const body = document.querySelector("body");
 
 const kfMixing = 1.4;
-let missingPressureInside;
-let neckPush;
-let consumptionOutside;
-let consumptionInside;
-let mainElevatorDiameter;
-let nozzleElevatorDiameter;
-let standartElevetorDiametr;
-let elevatoNumber;
+let missingPressureInside,
+  neckPush,
+  consumptionOutside,
+  consumptionInside,
+  mainElevatorDiameter,
+  nozzleElevatorDiameter,
+  standartElevetorDiametr,
+  elevatoNumber;
 
-let days = [];
-let systemPrameters = [];
-let systemDeltas = [];
+let days = [],
+  systemPrameters = [],
+  systemDeltas = [];
 
 const paramsDescription = [
   "T1 В сети, °C", // 0
@@ -43,24 +38,20 @@ const paramsDescription = [
 
 function readFile(input) {
   let file = input.files[0];
-
   let reader = new FileReader();
-
   reader.readAsText(file);
-
   reader.onload = function () {
     const CSVAsText = reader.result;
-
     let CSVAsObject = CSVAsText.split("\n").map((x) => x.split(";"));
 
-    let daysWithInvalidParams = [];
-
-    let parametersMax = [];
-    let parametersMin = [];
-    let deltasMax = [];
-    let deltasMin = [];
-
-    let parametersAverage = [];
+    let daysWithInvalidParams = [],
+      parametersMax = [],
+      parametersMin = [],
+      deltasMax = [],
+      deltasMin = [],
+      parametersAverage = [],
+      parametersStandOtklon = [],
+      deltasStandOtklon = [];
 
     let deltasAverage = [
       // ΔT Outside // 0
@@ -72,9 +63,6 @@ function readFile(input) {
       // ΔM Inside // 6
       // ΔV Inside // 7
     ];
-
-    let parametersStandOtklon = [];
-    let deltasStandOtklon = [];
 
     let paramsKvartils = { 25: [], 50: [], 75: [] };
     let deltaKvartils = { 25: [], 50: [], 75: [] };
@@ -169,6 +157,8 @@ function readFile(input) {
         neckPush =
           (parametersAverage[2] - parametersAverage[11] + deltasAverage[5]) *
           100;
+        let bigClearGrid = makeOneGrid(days, systemPrameters, systemDeltas);
+        // console.log(bigClearGrid);
         break;
       }
 
@@ -180,6 +170,20 @@ function readFile(input) {
       deltaKvartils = { 25: [], 50: [], 75: [] };
     }
   };
+}
+
+function makeOneGrid(days, systemPrameters, systemDeltas) {
+  let newGrid = [];
+  for (let day = 0; day <= days.length - 1; day++) {
+    newGrid.push([days[day]]);
+    for (let param = 0; param < systemPrameters.length; param++) {
+      newGrid[day].push(systemPrameters[param][day]);
+    }
+    for (let param = 0; param < systemDeltas.length; param++) {
+      newGrid[day].push(systemDeltas[param][day]);
+    }
+  }
+  return newGrid;
 }
 
 function verifyParameters(CSVAsObject, daysWithInvalidParams) {
