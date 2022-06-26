@@ -479,7 +479,8 @@ function createGraphics() {
   graphWrapper.append(canvasElement);
 
   let graphScript = document.createElement("script");
-  graphScript.innerHTML = `const labels = days;
+  graphScript.innerHTML = `
+        const labels = days;
         const data = {
           labels: labels,
           datasets: [{
@@ -519,9 +520,45 @@ function createGraphics() {
   if (window.innerWidth < 550 && window.innerHeight > window.innerWidth) {
     let adviceToRotate = document.createElement("div");
     adviceToRotate.className = "row hint";
+    adviceToRotate.style.border = "1px dashed black";
     adviceToRotate.innerHTML = `
-        <p>Рекоммендуется перевернуть ваше устройство горизонтально для лучшего отображения графика</p>
+        <p>Рекомендуется перевернуть ваше устройство горизонтально для лучшего отображения графика</p>
     `;
     body.insertBefore(adviceToRotate, graphWrapper);
   }
+}
+
+grabFileNamesFromServer();
+
+function grabFileNamesFromServer() {
+  const selectFilesElement = document.querySelector("#server-files");
+  fetch("http://localhost:8000/getFileNames")
+    .then(function (response) {
+      return response.text();
+    })
+    .then(function (text) {
+      let fileNmaes = text.split(",");
+      for (fileName of fileNmaes) {
+        let optEl = document.createElement("option");
+        optEl.value = fileName;
+        let dotIndex = fileName.indexOf(".");
+        if (dotIndex) {
+          optEl.innerText = fileName.slice(0, dotIndex);
+        } else {
+          optEl.innerText = fileName;
+        }
+        selectFilesElement.append(optEl);
+      }
+    });
+}
+
+function readServerFile(fileName) {
+  console.log(fileName);
+  fetch("http://localhost:8000/getTable?" + fileName)
+    .then(function (response) {
+      return response.text();
+    })
+    .then(function (text) {
+      console.log(text);
+    });
 }

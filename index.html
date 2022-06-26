@@ -3,13 +3,7 @@
   <link rel="stylesheet" href="index.css" />
   <head>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- <script src="/highcharts/highcharts.js"></script> -->
     <meta charset="utf-8" />
-    <link
-      rel="shortcut icon"
-      type="image/x-icon"
-      href="https://icdn.lenta.ru/favicon.ico"
-    />
     <meta
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
       data-react-helmet=""
@@ -26,13 +20,14 @@
       <div class="row hint">
         <p>Выберите файл с данными о работе системы в формате CSV</p>
       </div>
-      <div class="row">
-        <input
-          id="file-input"
-          type="file"
-          name="name"
-          onchange="readFile(this)"
-        />
+      <div class="row selects">
+        <input id="file-input" type="file" onchange="readFile(this)" />
+        <p style="margin: 0 15px 0 5px">или</p>
+        <select id="server-files" onchange="readServerFile(value)">
+          <option hidden disabled selected value>
+            Выбирите имеющиеся на сервере данные
+          </option>
+        </select>
       </div>
       <div class="row">
         <button onclick="calElevatorSize()">
@@ -41,13 +36,13 @@
       </div>
       <div class="row">
         <select id="paramsForGraph">
-          <option value="0, 1, 9, 10">Температура</option>
-          <option value="2, 3, 11, 12">Давление</option>
-          <option value="4, 5, 13, 14">Расход</option>
-          <option value="6, 7, 15, 16">Объем</option>
+          <option value="0,1,9,10">Температура</option>
+          <option value="2,3,11,12">Давление</option>
+          <option value="4,5,13,14">Расход</option>
+          <option value="6,7,15,16">Объем</option>
         </select>
         <button onclick="createGraphics();">
-          Построить графики по историческим данным для выбранного парамтра
+          Построить графики по историческим данным для выбранного параметра
         </button>
       </div>
     </div>

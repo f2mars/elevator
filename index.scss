@@ -17,6 +17,7 @@ header {
     display: flex;
     margin: 15px;
     flex-wrap: wrap;
+    justify-content: center;
 }
 
 .hint {
@@ -37,4 +38,12 @@ button {
     text-align: center;
     flex: 1;
     min-height: 30px;
+}
+
+#file-input, #server-files{
+    margin: 5px;
+}
+
+.selects {
+    align-items: center;
 }
